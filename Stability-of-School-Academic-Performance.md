@@ -1,3 +1,8 @@
+Stability-of-School-Academic-Perfomance-Longitudinal-Case (2015-2019)
+=====================================================================
+
+### Yuliya Kersha, Roman Zviagintsev
+
 Data preparation for the analysis
 ---------------------------------
 
@@ -589,7 +594,7 @@ library(sjstats)
 library(sjPlot)
 ```
 
-    ## Install package "strengejacke" from GitHub (`devtools::install_github("strengejacke/strengejacke")`) to load all sj-packages at once!
+    ## #refugeeswelcome
 
 ``` r
 rus_mod <- lmer(use ~ 1 + (1 | id/year), data = ach_data, subset = subject == "rus")
