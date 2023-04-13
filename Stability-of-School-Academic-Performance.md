@@ -5,6 +5,7 @@ author: "Yuliya Kersha, Roman Zviagintsev"
 output: 
   html_document: 
     keep_md: yes
+    yaml: false
 
 ---
 
@@ -13,7 +14,7 @@ output:
 
 ## Data preparation for the analysis
 
-###Constructing a socioeconomic status (SES) index for schools
+### Constructing a socioeconomic status (SES) index for schools
 
 Firstly we work with a school-level database containing information about school staff and resources in year 2019 to construct an index of schools' socio-economic status (SES). To create the index, we selected 11 variables that have been shown to have significant relationships with children's outcomes in our previous studies. These variables characterize the contingent of students and their families in the educational organization, as well as the equipment of schools with technical and material resources.
 
@@ -240,7 +241,7 @@ school_dat$ses_group <- ntile(school_dat$SES, 3)
 school_dat$ses_group <- factor(school_dat$ses_group, labels = c("Low", "Medium", "High"))
 ```
 
-###Merging school data with USE scores
+### Merging school data with USE scores
 
 We used the results of graduates in the Unified State Examination (USE) in Russian and Math (only for 11th-grade students) as indicators of academic achievement for all schools in our database. To create a complete database, we merged the school_data file with individual USE results of students for five years, from 2015 to 2019.
 
@@ -625,7 +626,13 @@ library(lme4)
 ```r
 library(sjstats)
 library(sjPlot)
+```
 
+```
+## Install package "strengejacke" from GitHub (`devtools::install_github("strengejacke/strengejacke")`) to load all sj-packages at once!
+```
+
+```r
 rus_mod <- lmer(use ~ 1 + (1 | id/year), data = ach_data, subset = subject == "rus")
 tab_model(rus_mod, show.icc = FALSE)
 ```
