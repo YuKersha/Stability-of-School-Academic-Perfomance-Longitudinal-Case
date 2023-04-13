@@ -1,21 +1,12 @@
 ---
+title: "Stability-of-School-Academic-Perfomance-Longitudinal-Case (2015-2019)"
+author: "Yuliya Kersha, Roman Zviagintsev"
 output: 
   html_document: 
     keep_md: yes
 ---
 
 
-```r
-knitr::opts_chunk$set(output = "github_document", preview.math = FALSE)
-```
-
----
-title: "Stability-of-School-Academic-Perfomance-Longitudinal-Case (2015-2019)"
-author: "Yuliya Kersha, Roman Zviagintsev"
-output:
-  md_document:
-    variant: markdown_github
----
 
 ## Data preparation for the analysis
 
@@ -631,7 +622,13 @@ library(lme4)
 ```r
 library(sjstats)
 library(sjPlot)
+```
 
+```
+## Learn more about sjPlot with 'browseVignettes("sjPlot")'.
+```
+
+```r
 rus_mod <- lmer(use ~ 1 + (1 | id/year), data = ach_data, subset = subject == "rus")
 tab_model(rus_mod, show.icc = FALSE)
 ```
