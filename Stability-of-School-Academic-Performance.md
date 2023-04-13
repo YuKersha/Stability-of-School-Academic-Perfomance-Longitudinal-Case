@@ -2,12 +2,12 @@
 
 title: "Stability-of-School-Academic-Perfomance-Longitudinal-Case (2015-2019)"
 author: "Yuliya Kersha, Roman Zviagintsev"
-
 output: 
   html_document: 
     keep_md: yes
 
 ---
+
 
 
 
@@ -625,13 +625,7 @@ library(lme4)
 ```r
 library(sjstats)
 library(sjPlot)
-```
 
-```
-## Learn more about sjPlot with 'browseVignettes("sjPlot")'.
-```
-
-```r
 rus_mod <- lmer(use ~ 1 + (1 | id/year), data = ach_data, subset = subject == "rus")
 tab_model(rus_mod, show.icc = FALSE)
 ```
