@@ -1,9 +1,3 @@
-------------------------------------------------------------------------
-
-title: "Stability-of-School-Academic-Perfomance-Longitudinal-Case (2015-2019)" author: "Yuliya Kersha, Roman Zviagintsev" output: md\_document: variant: markdown\_github header-includes: -
-
-------------------------------------------------------------------------
-
 Data preparation for the analysis
 ---------------------------------
 
@@ -593,7 +587,11 @@ library(lme4)
 ``` r
 library(sjstats)
 library(sjPlot)
+```
 
+    ## Install package "strengejacke" from GitHub (`devtools::install_github("strengejacke/strengejacke")`) to load all sj-packages at once!
+
+``` r
 rus_mod <- lmer(use ~ 1 + (1 | id/year), data = ach_data, subset = subject == "rus")
 tab_model(rus_mod, show.icc = FALSE)
 ```
