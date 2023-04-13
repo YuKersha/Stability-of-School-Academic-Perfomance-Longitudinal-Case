@@ -1,9 +1,12 @@
 ---
+
 title: "Stability-of-School-Academic-Perfomance-Longitudinal-Case (2015-2019)"
 author: "Yuliya Kersha, Roman Zviagintsev"
+
 output: 
   html_document: 
     keep_md: yes
+
 ---
 
 
