@@ -3,8 +3,7 @@ Stability-of-School-Academic-Perfomance-Longitudinal-Case (2015-2019)
 
 ### Yuliya Kersha, Roman Zviagintsev
 
-Data preparation for the analysis
----------------------------------
+<details> <summary>\#\# Data preparation for the analysis<summary> <br>
 
 ### Constructing a socioeconomic status (SES) index for schools
 
@@ -264,6 +263,8 @@ We used the results of graduates in the Unified State Examination (USE) in Russi
 use <- read_excel("use.xlsx", na="NA")
 ach_data <- merge(use, school_dat, by = "id")
 ```
+
+</details>
 
 Analysis of Unified State Examination (USE) Results in the Region from 2015-2019
 --------------------------------------------------------------------------------
@@ -592,7 +593,11 @@ library(lme4)
 ``` r
 library(sjstats)
 library(sjPlot)
+```
 
+    ## #refugeeswelcome
+
+``` r
 rus_mod <- lmer(use ~ 1 + (1 | id/year), data = ach_data, subset = subject == "rus")
 tab_model(rus_mod, show.icc = FALSE)
 ```
