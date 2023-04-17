@@ -3,13 +3,13 @@ Stability-of-School-Academic-Perfomance-Longitudinal-Case (2015-2019)
 
 ### Yuliya Kersha, Roman Zviagintsev
 
-<details> <summary>Data preparation for the analysis<summary>
+<details> <summary>Data preparation for the analysis</summary>
 
-\#\#\# Constructing a socioeconomic status (SES) index for schools
+### Constructing a socioeconomic status (SES) index for schools
 
 Firstly we work with a school-level database containing information about school staff and resources in year 2019 to construct an index of schools' socio-economic status (SES). To create the index, we selected 11 variables that have been shown to have significant relationships with children's outcomes in our previous studies. These variables characterize the contingent of students and their families in the educational organization, as well as the equipment of schools with technical and material resources.
 
-The selected variables are as follows: </details>
+The selected variables are as follows:
 
 -   **ses1**: number of computers connected to the Internet per student
 -   **ses2**: share of students at school enrolled in specialized classes
@@ -263,6 +263,8 @@ We used the results of graduates in the Unified State Examination (USE) in Russi
 use <- read_excel("use.xlsx", na="NA")
 ach_data <- merge(use, school_dat, by = "id")
 ```
+
+</details>
 
 Analysis of Unified State Examination (USE) Results in the Region from 2015-2019
 --------------------------------------------------------------------------------
