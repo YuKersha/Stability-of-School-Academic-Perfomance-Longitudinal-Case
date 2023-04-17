@@ -3,7 +3,7 @@ Stability-of-School-Academic-Perfomance-Longitudinal-Case (2015-2019)
 
 ### Yuliya Kersha, Roman Zviagintsev
 
-<details> <summary style="font-size: 18px; font-weight: bold;">Data preparation</summary>
+<details> <summary><span style="font-size:16px; font-weight:bold;">Data preparation</span></summary>
 
 ### Constructing a socioeconomic status (SES) index for schools
 
@@ -595,7 +595,7 @@ library(sjstats)
 library(sjPlot)
 ```
 
-    ## Install package "strengejacke" from GitHub (`devtools::install_github("strengejacke/strengejacke")`) to load all sj-packages at once!
+    ## Learn more about sjPlot with 'browseVignettes("sjPlot")'.
 
 ``` r
 rus_mod <- lmer(use ~ 1 + (1 | id/year), data = ach_data, subset = subject == "rus")
