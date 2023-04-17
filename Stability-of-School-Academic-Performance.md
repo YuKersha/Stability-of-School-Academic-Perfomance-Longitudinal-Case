@@ -5,7 +5,7 @@ Stability-of-School-Academic-Perfomance-Longitudinal-Case (2015-2019)
 
 <details> <summary>Data preparation for the analysis<summary>
 
-### Constructing a socioeconomic status (SES) index for schools
+\#\#\# Constructing a socioeconomic status (SES) index for schools
 
 Firstly we work with a school-level database containing information about school staff and resources in year 2019 to construct an index of schools' socio-economic status (SES). To create the index, we selected 11 variables that have been shown to have significant relationships with children's outcomes in our previous studies. These variables characterize the contingent of students and their families in the educational organization, as well as the equipment of schools with technical and material resources.
 
@@ -591,7 +591,11 @@ library(lme4)
 ``` r
 library(sjstats)
 library(sjPlot)
+```
 
+    ## Learn more about sjPlot with 'browseVignettes("sjPlot")'.
+
+``` r
 rus_mod <- lmer(use ~ 1 + (1 | id/year), data = ach_data, subset = subject == "rus")
 tab_model(rus_mod, show.icc = FALSE)
 ```
