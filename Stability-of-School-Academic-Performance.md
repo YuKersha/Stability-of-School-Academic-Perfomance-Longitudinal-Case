@@ -3,7 +3,21 @@ Stability-of-School-Academic-Perfomance-Longitudinal-Case (2015-2019)
 
 ### Yuliya Kersha, Roman Zviagintsev
 
-<details> <summary style="font-size: 18px; font-weight: bold;"><span style="font-size: 18px; font-weight: bold;">Data preparation</span></summary>
+Key Results
+-----------
+
+The analysis of Unified State Examination (USE) results in the region from 2015 to 2019 revealed some interesting findings regarding the stability of academic performance in schools.
+
+-   Academic performance in the region has slightly improved over time, with an upward trend in the mean USE results in Russian and math.
+-   Schools with higher mean scores exhibit greater stability over time, while those with lower mean scores tend to have more fluctuation in their results. This suggests that schools that consistently perform well tend to maintain that level of performance, while those that perform poorly tend to have more variability.
+-   There is a significant distinction between the stability of academic performance in Russian and math. Schools tend to have more consistent results in the Russian subject exam from year to year compared to math.
+-   High-SES schools show more stable results in the Russian exam from year to year than low-SES schools. However, there is no significant difference in the variability of math exam results across different SES schools.
+-   Individual performance variance can be partially attributed to the school. The contribution of schools to individual performance variability is higher for Russian than for math.
+
+Preparing the Data for Analysis
+-------------------------------
+
+<details> <summary>Open this section</summary>
 
 ### Constructing a socioeconomic status (SES) index for schools
 
@@ -593,11 +607,7 @@ library(lme4)
 ``` r
 library(sjstats)
 library(sjPlot)
-```
 
-    ## Install package "strengejacke" from GitHub (`devtools::install_github("strengejacke/strengejacke")`) to load all sj-packages at once!
-
-``` r
 rus_mod <- lmer(use ~ 1 + (1 | id/year), data = ach_data, subset = subject == "rus")
 tab_model(rus_mod, show.icc = FALSE)
 ```
@@ -822,14 +832,3 @@ performance::icc(math_mod, by_group = TRUE)
     ## id      | 0.107
 
 In contrast, the analysis for scores of USE in math reveals a different picture. Although individual background still accounts for the largest portion of individual scores, the combination of year and school membership (13%) has a slightly greater impact than school membership alone (11%). This finding is surprising, especially when compared to the results for Russian language, and suggests that there is a greater variation in math scores from year to year. This result is also consistent with our earlier visual analysis.
-
-### Key Results
-
-The analysis of Unified State Examination (USE) results in the region from 2015 to 2019 revealed some interesting findings regarding the stability of academic performance in schools.
-
--   Academic performance in the region has slightly improved over time, with an upward trend in the mean USE results in Russian and math.
--   Schools with higher mean scores exhibit greater stability over time, while those with lower mean scores tend to have more fluctuation in their results. This suggests that schools that consistently perform well tend to maintain that level of performance, while those that perform poorly tend to have more variability.
--   There is a significant distinction between the stability of academic performance in Russian and math. Schools tend to have more consistent results in the Russian subject exam from year to year compared to math.
--   High-SES schools show more stable results in the Russian exam from year to year than low-SES schools. However, there is no significant difference in the variability of math exam results across different SES schools.
--   Individual performance variance can be partially attributed to the school. The contribution of schools to individual performance variability is higher for Russian than for math.
-
