@@ -1,6 +1,6 @@
 # Examining School Effectiveness Through Longitudinal Analysis in Tyumen Region (Russia)
 
-A school's effectiveness is the ultimate measure of its success in imparting knowledge and skills to its students. Over the years, many researchers and practitioners have tried to identify the factors that differentiate successful schools from their less successful counterparts. However, in the Russian tradition of school effectiveness research, effectiveness is not usually viewed as a measurable characteristic of a school, i.e., its "contribution" to student performance.
+School effectiveness is a crucial aspect of education that has long been a focus of research and practice. Researches on school effectiveness explore different aspects of school work to measure its contribution to students' perfromance. For this research project, we define school effectiveness as the stability and consistency of school effects on results, as proposed by Thomas, Sammons, Mortimore, and Smees (1997), and the stability of school students' performance across subject areas, as outlined by Ma (2001). In the Russian tradition of school research, the use of these indicators as characteristics of school performance is not typical.
 
 Our study aims to bridge this gap in knowledge and analyze the effectiveness of Russian schools exploring stability in academic performance over five years. Specifically, we address these research questions:
 
