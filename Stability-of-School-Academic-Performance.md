@@ -6,22 +6,21 @@ Stability-of-School-Academic-Perfomance-Longitudinal-Case (2015-2019)
 Key Results
 -----------
 
-The analysis of Unified State Examination (USE) results in the region from 2015 to 2019 revealed some interesting findings regarding the stability of academic performance in schools.
+The analysis of the Unified State Examination (USE) results in the region from 2015 to 2019 revealed some interesting findings regarding the stability of academic performance in schools.
 
--   Academic performance in the region has slightly improved over time, with an upward trend in the mean USE results in Russian and math.
 -   Schools with higher mean scores exhibit greater stability over time, while those with lower mean scores tend to have more fluctuation in their results. This suggests that schools that consistently perform well tend to maintain that level of performance, while those that perform poorly tend to have more variability.
--   There is a significant distinction between the stability of academic performance in Russian and math. Schools tend to have more consistent results in the Russian subject exam from year to year compared to math.
--   High-SES schools show more stable results in the Russian exam from year to year than low-SES schools. However, there is no significant difference in the variability of math exam results across different SES schools.
--   Individual performance variance can be partially attributed to the school. The contribution of schools to individual performance variability is higher for Russian than for math.
+-   There is a significant distinction between the stability of academic performance in Russian language and Mathematics. Schools tend to have more consistent results for Russian language exam from year to year compared to Mathematics.
+-   High-SES schools show more stable results in Russian language exam from year to year than low-SES schools. However, there is no significant difference in the variability of Mathematics exam results across different SES schools.
+-   Individual performance variance can be partially attributed to the school. The contribution of schools to individual performance variability is higher for Russian language than for Mathematics.
 
-Preparing the Data for Analysis
+Preparing Data for the Analysis
 -------------------------------
 
 <details> <summary>Open this section</summary>
 
-### Constructing a socioeconomic status (SES) index for schools
+### Constructing a Socio-economic Status (SES) Index for Schools
 
-Firstly we work with a school-level database containing information about school staff and resources in year 2019 to construct an index of schools' socio-economic status (SES). To create the index, we selected 11 variables that have been shown to have significant relationships with children's outcomes in our previous studies. These variables characterize the contingent of students and their families in the educational organization, as well as the equipment of schools with technical and material resources.
+Firstly we work with a school-level database containing information about school staff and resources in year 2019 to construct an index of schools' socio-economic status (SES). To create the index, we selected 11 variables that have been shown to have significant relationships with childrens' outcomes in our previous studies. These variables characterize the scoio-economic composition of students' body and their families in the educational organization, as well as the equipment of schools with technical and material resources.
 
 The selected variables are as follows:
 
@@ -36,7 +35,7 @@ The selected variables are as follows:
 -   **ses10**: share of families with 250-500 books at home
 -   **ses11**: share of families with more than 1,000 books at home
 
-After selecting the relevant variables for constructing the SES index, we imported the school-level data from an Excel file and convereted **ses** variables to numeric data type. Next, we calculated descriptive statistics for the selected variables. The output of the descriptive statistics is shown below:
+After selecting the relevant variables for constructing the SES index, we imported school-level data and convereted **ses** variables to numeric data type. The output of the descriptive statistics for these variables is shown below:
 
 ``` r
 library(readxl)
@@ -71,14 +70,14 @@ summary(ses[, 2:12])
     ##  Max.   :1.0000   Max.   :0.57630   Max.   :0.20000  
     ##  NA's   :2        NA's   :2         NA's   :2
 
+To create the SES index for our school data, we used Principal Component Analysis (PCA). This method was selected because it allows us to reduce the dimensionality of the data while retaining as much information as possible. However, you can notice, that some variables in the dataset have missing values. Since PCA does not work with missing data, we used the `missMDA` R package to impute missing values in the dataset. We chose PCA-based imputation because it is particularly suitable for high-dimensional datasets like ours. This type of imputation calculates correlations between the variables in the dataset and uses this information to fill in missing values.
+
 ``` r
 sapply(ses, function(x) sum(is.na(x)))
 ```
 
     ##    id  ses1  ses2  ses3  ses4  ses5  ses6  ses7  ses8  ses9 ses10 ses11 
     ##     0     0     0     3     3     0     0     2     2     2     2     2
-
-To create the SES index for our school data, we used Principal Component Analysis (PCA). This method was selected because it allows us to reduce the dimensionality of the data while retaining as much information as possible. However, you can notice, that some variables in the dataset have missing values. Since PCA does not work with missing data, we used the `missMDA` R package to impute missing values in the dataset. We chose PCA-based imputation because it is particularly suitable for high-dimensional datasets like ours. This type of imputation calculates correlations between the variables in the dataset and uses this information to fill in missing values.
 
 ``` r
 library(missMDA)
@@ -90,7 +89,11 @@ library(missMDA)
 numb_comp <- estim_ncpPCA(ses[,c(2:12)], ncp.min=0, ncp.max=5)
 ses_imp <- imputePCA(ses[,c(2:12)],ncp=numb_comp$ncp)
 ses_imp <-as.data.frame(ses_imp) 
+```
 
+Now there are no missing values in the data and we can move on to PCA.
+
+``` r
 sapply(ses_imp[,c(1:11)], function(x) sum(is.na(x)))
 ```
 
@@ -100,8 +103,6 @@ sapply(ses_imp[,c(1:11)], function(x) sum(is.na(x)))
     ##                 0                 0                 0                 0 
     ##  completeObs.ses9 completeObs.ses10 completeObs.ses11 
     ##                 0                 0                 0
-
-Now there are no missing values in the data and we can move on to PCA.
 
 ``` r
 library(factoextra)
@@ -144,7 +145,7 @@ fviz_pca_var(pca_ses,
 
 ![](Stability-of-School-Academic-Performance_files/figure-markdown_github/unnamed-chunk-3-2.png)
 
-Our analysis reveals that one factor stands out prominently in the data, explaining almost 40% of the variance in the original database. To simplify the interpretation of the loading scores on this first component, we also applied a Varimax rotation. This is a widely used technique in factor analysis that maximizes the variance of the squared loadings of each variable on a given component, while minimizing the cross-factor correlations.
+Our analysis reveals that one factor stands out prominently in the data, explaining almost 40% of the variance in the original database. To simplify the interpretation of the loading scores on this first component, we also applied a Varimax rotation.
 
 ``` r
 rawLoadings_matrix <- pca_ses$rotation[, 1:2] %*% diag(pca_ses$sdev[1:2])
@@ -165,7 +166,7 @@ To ensure that higher values on the first component represent higher school SES 
 ``` r
 library(knitr)
 invLoadings <- round ((-1 * rotatedLoadings),3)
-var_desc <- c("Number of computers connected to the Internet per student", "share of students at school enrolled in specialized classes", "Share of teachers who receive salaries from 260$ to 390$", "Share of teachers receiving salaries above 635$", "Share of pupils in school, from families in which both parents work", "Share of pupils in school, from families in which both parents have higher education", "Share of families with high income", "Share of families with very high income", "Share of families with fewer than 100 books at home", "Share of families with 250-500 books at home", "Share of families with more than 1,000 books at home")
+var_desc <- c("Number of computers connected to the Internet per student", "Share of students at school enrolled in specialized classes", "Share of teachers who receive salaries from 260$ to 390$", "Share of teachers receiving salaries above 635$", "Share of pupils in school, from families in which both parents work", "Share of pupils in school, from families in which both parents have higher education", "Share of families with high income", "Share of families with very high income", "Share of families with fewer than 100 books at home", "Share of families with 250-500 books at home", "Share of families with more than 1,000 books at home")
 loadings_table <- cbind(var_desc, invLoadings)
 knitr::kable(loadings_table, align = rep("c", ncol(loadings_table)), 
       col.names = c("Variable", "Loading"))
@@ -192,7 +193,7 @@ knitr::kable(loadings_table, align = rep("c", ncol(loadings_table)),
 </tr>
 <tr class="even">
 <td align="left">completeObs.ses2</td>
-<td align="center">share of students at school enrolled in specialized classes</td>
+<td align="center">Share of students at school enrolled in specialized classes</td>
 <td align="center">0.638</td>
 </tr>
 <tr class="odd">
@@ -271,7 +272,7 @@ school_dat$ses_group <- factor(school_dat$ses_group, labels = c("Low", "Medium",
 
 ### Merging school data with USE scores
 
-We used the results of graduates in the Unified State Examination (USE) in Russian and Math (only for 11th-grade students) as indicators of academic achievement for all schools in our database. To create a complete database, we merged the school\_data file with individual USE results of students for five years, from 2015 to 2019.
+We used the results of graduates in the Unified State Examination (USE) in Russian language and Mathematics (only for 11th-grade students) as indicators of academic achievement for all schools in our database. To create a complete database, we merged the school\_data file with individual USE results of students for five years, from 2015 to 2019.
 
 ``` r
 use <- read_excel("use.xlsx", na="NA")
@@ -285,9 +286,9 @@ Analysis of Unified State Examination (USE) Results in the Region from 2015-2019
 
 ### Investigating the Stability of Academic Performance in Schools
 
-**Research Question 1: How stable is a school's academic performance across years in Russian and math?**
+**Research Question 1: How stable is a school's academic performance across years in Russian language and Mathematics?**
 
-To explore the stability of academic performance in schools over the five-year period from 2015 to 2019, we conducted exploratory visual analysis. To help us better understand the data, we firstly created a graph showing the dynamics of USE results in Russian and math for each school.
+To explore the stability of academic performance in schools over the five-year period from 2015 to 2019, we conducted exploratory visual analysis. To help us better understand the data, we firstly created a graph showing the dynamics of USE results in Russian language and Mathematics for each school.
 
 ``` r
 ach_data$subject <- as.factor(ach_data$subject)
@@ -342,7 +343,7 @@ ggplot(graph1, aes(ach, id)) +
 
 The graph we are looking at shows the mean USE results for schools in the region over five years from 2015 to 2019. Each data point in the graph represents a school's average performance for a particular year. Lighter points indicate more recent years, and the horizontal line represents the school itself, typically showing five data points, one for each year. Schools are sorted in descending order based on their mean academic performance for five years. The graph reveals interesting patterns about the academic performance of schools in the region.
 
-The first pattern that we notice is a slight upward trend in the mean USE results over the five-year period. In 2015, the average score for the exam was 54, while in 2019, it increased to 61. This indicates that the overall academic performance of schools in the region has improved slightly over time.
+The first pattern that we notice is a slight upward trend in the mean USE results over the five-year period. In 2015, the average score for the exam was 54, while in 2019, it increased to 61. This indicates that the overall exam scores in the region has improved slightly over time. It's important to note that the slight increase in scores does not necessarily indicate improved academic performance, as it could be attributed to changes made to the USE exams over the years.
 
 Another interesting finding from the graph is the relationship between the mean achievement of schools and their stability over time. As we move up the graph and toward schools with higher mean scores, the variability in the data from year to year seems to decrease. In other words, the schools with the highest mean scores seem to be the most stable from year to year, while schools with lower mean scores exhibit greater variability. This observation is supported by a correlation test, which shows that the variance of all students' USE results from 2015-2019 in each school is weakly but significantly correlated with the mean scores of achievement in 2015-2019 for the school. This suggests that schools that consistently perform well tend to maintain that level of performance, while those that perform poorly tend to have more fluctuation in their results.
 
@@ -367,7 +368,7 @@ cor.test(ach_var$ach, ach_var$variance, method = "pearson")
     ##        cor 
     ## -0.1896405
 
-In examining academic performance stability, it's important to consider the potential difference in stability between different subjects. Our analysis focused on Russian and math results, and we stumbled upon a significant distinction between the two.
+In examining academic performance stability, it's important to consider the potential difference in stability between different subjects. Our analysis focused on Russian language and Mathematics results, and we stumbled upon a significant distinction between the two.
 
 ``` r
 graph2 <- ach_data %>%
@@ -405,7 +406,7 @@ ggplot(graph2, aes(ach, id, subject)) +
 
 ![](Stability-of-School-Academic-Performance_files/figure-markdown_github/unnamed-chunk-10-1.png)
 
-When we created a graph with school mean score distributions for each subject, we found that not only were the scores for the Russian exam higher, but they also exhibited lower variability. In other words, schools tend to have more consistent results in the Russian subject exam from year to year compared to math. Our visual analysis was further supported by the results of a paired t-test, which compared the variance of individual scores for each school from 2015-2019 in Russian and math. The difference was found to be statistically significant, indicating that scores in Russian have lower variance compared to math. These findings underscore the importance of subject-specific analysis when examining academic performance stability.
+When we created a graph with school mean score distributions for each subject, we found that not only were the scores for the Russian language exam higher, but they also exhibited lower variability. In other words, schools tend to have more consistent results in the Russian language exam from year to year compared to Mathematics. Our visual analysis was further supported by the results of a paired t-test, which compared the variance of individual scores for each school from 2015-2019 in Russian and Mathematics. The difference was found to be statistically significant, indicating that scores in Russian have lower variance compared to Mathematics. These findings underscore the importance of subject-specific analysis when examining academic performance stability.
 
 ``` r
 library(tidyr)
@@ -446,9 +447,9 @@ t.test(variance_data_subj$rus, variance_data_subj$math, paired = TRUE)
 
 ### Stability of Academic Performance for Schools With Different SES
 
-**Research question 2: Does the stability of academic performance differ across schools with varying levels of socioeconomic status (SES)?**
+**Research question 2: Does the stability of academic performance differ across schools with varying levels of socio-economic status (SES)?**
 
-We've already seen that high-performing schools tend to be more stable in their academic performance than low-performing ones. But does this trend hold true across schools with varying levels of socioeconomic status? We're particularly interested in exploring whether well-resourced schools with more privileged student populations maintain a more consistent level of achievement. To find out, we will take a closer look at the distribution of results on the Russian exam for high and low-SES schools using a graph.
+We've already seen that high-performing schools tend to be more stable in their academic performance than low-performing ones. But does this trend hold true across schools with varying levels of socio-economic status? We are particularly interested in exploring whether well-resourced schools with more privileged student populations maintain a more consistent level of achievement. To find out, we will take a closer look at the distribution of results for Russian language exam for high and low-SES schools using a graph.
 
 ``` r
 graph3 <- ach_data %>%
@@ -487,7 +488,7 @@ ggplot(graph3, aes(ach, id, ses_group)) +
 
 ![](Stability-of-School-Academic-Performance_files/figure-markdown_github/unnamed-chunk-12-1.png)
 
-Based on the picture, it seems that high-achieving schools are more consistent in their results than low-achieving ones. Another expected trend to note: high-achieving schools are more likely to fall into the high-SES category. The visual trend was also confirmed with a statistical test. We calculated the correlation between individual exam results and school SES. The results showed a weak but significant positive correlation (0.22), proving that high-SES schools show more stable results in Russian from year to year.
+Based on the picture, it seems that high-achieving schools are more consistent in their results than low-achieving ones. Another expected trend to note: high-achieving schools are more likely to fall into the high-SES category. The visual trend was also confirmed with a statistical test. We calculated the correlation between individual exam results and school SES. The results showed a weak but significant positive correlation (0.22), proving that high-SES schools show more stable results in Russian language from year to year.
 
 ``` r
 library(tidyr)
@@ -517,7 +518,7 @@ cor.test(variance_data_rus$SES, variance_data_rus$variance, method = "pearson")
     ##       cor 
     ## 0.2248929
 
-When we examine the graph for math exam results, the pattern we observed with the Russian exam becomes less clear. While high-SES schools again tend to score higher on average, there is no obvious trend towards lower variability of scores for these schools. To get a better understanding of the relationship between school socioeconomic status and academic performance stability, we calculated the correlation coefficient between individual results variance at schools and their SES. Surprisingly, we found a very weak negative relationship. This suggests that, unlike with the Russian exam, high-SES schools do not have any advantages when it comes to maintaining consistent student performance in math. This could indicate that the contribution of school characteristics to academic performance stability may be lower for math.
+When we examine the graph for Mathematics exam, the pattern we observed for Russian language became less clear. While high-SES schools again tend to score higher on average, there is no obvious trend towards lower variability of scores for these schools. To get a better understanding of the relationship between school socio-economic status and academic performance stability, we calculated the correlation coefficient between individual results variance at schools and their SES. Surprisingly, we found a very weak negative relationship. This suggests that, unlike with the Russian language exam, high-SES schools do not have any advantages when it comes to maintaining consistent student performance in Mathematics. This could indicate that the contribution of school characteristics to academic performance stability may be lower for Mathematics.
 
 ``` r
 graph4 <- ach_data %>%
@@ -587,7 +588,7 @@ cor.test(variance_data_math$SES, variance_data_math$variance, method = "pearson"
 
 **Research question 3: How much of the individual performance variance can be attributed to the school?**
 
-Another intriguing aspect of our research question is examining the extent to which individual data variability can be attributed to students' membership in a particular school. In other words, how much of the variance in academic performance results can be explained by the school? We are curious to know if a student's results are better explained by the year of graduation, their individual background, or characteristics of their school. To explore this, we utilized hierarchical three-level models with students as the first level, years as the second level, and schools as the third level. Our model assumes that the influence of grouping variables is not separate, which helps to capture any additional variation in intercepts unique to each year within the school.
+Another intriguing aspect of our research question is examining the extent to which individual data variability can be attributed to students' enrollment to a particular school. In other words, how much of the variance in academic performance results can be explained by the school? We are curious to know if a students' results are better explained by the year of graduation, their individual background, or characteristics of their school. To explore this, we utilized hierarchical three-level models with students as the first level, years as the second level, and schools as the third level. Our model assumes that the influence of grouping variables is not separate, which helps to capture any additional variation in intercepts unique to each year within the school.
 
 ``` r
 library(lme4)
@@ -718,7 +719,7 @@ performance::icc(rus_mod, by_group = TRUE)
     ## year:id | 0.039
     ## id      | 0.166
 
-Our analysis of individual scores in the Russian language exam revealed some interesting findings. While it's not surprising that the majority of the variance in scores is due to differences between students at the individual level, what is noteworthy is the extent to which school membership explains the scores. According to our results, school membership can account for about 17% of the variation in scores, indicating that the school a student attends can have a significant impact on their performance in the exam. Interestingly, we found that the combination of year and school had little effect on scores, suggesting that the variability in results from year to year is rather low within schools.
+Our analysis of individual scores in the Russian language exam revealed some interesting findings. While it's not surprising that the majority of the variance in scores is due to differences between students at the individual level, what is noteworthy is the extent to which school enrollment explains the scores. According to our results, school level can account for about 17% of the variation in scores, indicating that the school a student attends can have a significant impact on his/her performance in exam. Interestingly, we found that the combination of year and school had little effect on scores, suggesting that the variability in results from year to year is rather low within schools.
 
 ``` r
 math_mod <- lmer(use ~ 1 + (1 | id/year), data = ach_data, subset = subject == "math")
@@ -831,4 +832,4 @@ performance::icc(math_mod, by_group = TRUE)
     ## year:id | 0.131
     ## id      | 0.107
 
-In contrast, the analysis for scores of USE in math reveals a different picture. Although individual background still accounts for the largest portion of individual scores, the combination of year and school membership (13%) has a slightly greater impact than school membership alone (11%). This finding is surprising, especially when compared to the results for Russian language, and suggests that there is a greater variation in math scores from year to year. This result is also consistent with our earlier visual analysis.
+In contrast, the analysis for scores of USE in Mathematics reveals a different picture. Although individual background still accounts for the largest portion of individual scores, the combination of year and school enrollment (13%) has a slightly greater impact than school enrollment alone (11%). This finding is surprising, especially when compared to the results for Russian language, and suggests that there is a greater variation in Mathematics scores from year to year. This result is also consistent with our earlier visual analysis.
