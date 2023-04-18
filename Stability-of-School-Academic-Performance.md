@@ -1,7 +1,3 @@
-``` r
-options(warn = -1)
-```
-
 Stability-of-School-Academic-Perfomance-Longitudinal-Case (2015-2019)
 =====================================================================
 
@@ -85,6 +81,11 @@ sapply(ses, function(x) sum(is.na(x)))
 
 ``` r
 library(missMDA)
+```
+
+    ## Warning: package 'missMDA' was built under R version 4.0.2
+
+``` r
 numb_comp <- estim_ncpPCA(ses[,c(2:12)], ncp.min=0, ncp.max=5)
 ses_imp <- imputePCA(ses[,c(2:12)],ncp=numb_comp$ncp)
 ses_imp <-as.data.frame(ses_imp) 
@@ -130,7 +131,7 @@ summary(pca_ses)
 fviz_eig(pca_ses)
 ```
 
-![](Stability-of-School-Academic-Performance_files/figure-markdown_github/unnamed-chunk-4-1.png)
+![](Stability-of-School-Academic-Performance_files/figure-markdown_github/unnamed-chunk-3-1.png)
 
 ``` r
 fviz_pca_var(pca_ses,
@@ -140,7 +141,7 @@ fviz_pca_var(pca_ses,
             )
 ```
 
-![](Stability-of-School-Academic-Performance_files/figure-markdown_github/unnamed-chunk-4-2.png)
+![](Stability-of-School-Academic-Performance_files/figure-markdown_github/unnamed-chunk-3-2.png)
 
 Our analysis reveals that one factor stands out prominently in the data, explaining almost 40% of the variance in the original database. To simplify the interpretation of the loading scores on this first component, we also applied a Varimax rotation.
 
@@ -308,6 +309,11 @@ graph1 <- ach_data %>%
 
 ``` r
 library(ggthemes)
+```
+
+    ## Warning: package 'ggthemes' was built under R version 4.0.2
+
+``` r
 ggplot(graph1, aes(ach, id)) +
   geom_point(aes(color = year), size=2.2, alpha = 0.9)+
   scale_color_gradient(low = "darkblue", high ="cyan3" , na.value = NA)+
@@ -327,7 +333,9 @@ ggplot(graph1, aes(ach, id)) +
   )+ xlim(0, 100)
 ```
 
-![](Stability-of-School-Academic-Performance_files/figure-markdown_github/unnamed-chunk-9-1.png)
+    ## Warning: Removed 7 rows containing missing values (geom_point).
+
+![](Stability-of-School-Academic-Performance_files/figure-markdown_github/unnamed-chunk-8-1.png)
 
 The graph we are looking at shows the mean USE results for schools in the region over five years from 2015 to 2019. Each data point in the graph represents a school's average performance for a particular year. Lighter points indicate more recent years, and the horizontal line represents the school itself, typically showing five data points, one for each year. Schools are sorted in descending order based on their mean academic performance for five years. The graph reveals interesting patterns about the academic performance of schools in the region.
 
@@ -390,12 +398,19 @@ ggplot(graph2, aes(ach, id, subject)) +
   xlim(0, 100)
 ```
 
-![](Stability-of-School-Academic-Performance_files/figure-markdown_github/unnamed-chunk-11-1.png)
+    ## Warning: Removed 110 rows containing missing values (geom_point).
+
+![](Stability-of-School-Academic-Performance_files/figure-markdown_github/unnamed-chunk-10-1.png)
 
 When we created a graph with school mean score distributions for each subject, we found that not only were the scores for the Russian language exam higher, but they also exhibited lower variability. In other words, schools tend to have more consistent results in the Russian language exam from year to year compared to Mathematics. Our visual analysis was further supported by the results of a paired t-test, which compared the variance of individual scores for each school from 2015-2019 in Russian and Mathematics. The difference was found to be statistically significant, indicating that scores in Russian have lower variance compared to Mathematics. These findings underscore the importance of subject-specific analysis when examining academic performance stability.
 
 ``` r
 library(tidyr)
+```
+
+    ## Warning: package 'tidyr' was built under R version 4.0.2
+
+``` r
 variance_data_subj <- ach_data %>%
      group_by(id, subject) %>%
      summarize(variance = var(use, na.rm = TRUE))
@@ -465,7 +480,9 @@ ggplot(graph3, aes(ach, id, ses_group)) +
   xlim(0, 100)
 ```
 
-![](Stability-of-School-Academic-Performance_files/figure-markdown_github/unnamed-chunk-13-1.png)
+    ## Warning: Removed 2 rows containing missing values (geom_point).
+
+![](Stability-of-School-Academic-Performance_files/figure-markdown_github/unnamed-chunk-12-1.png)
 
 Based on the picture, it seems that high-achieving schools are more consistent in their results than low-achieving ones. Another expected trend to note: high-achieving schools are more likely to fall into the high-SES category. The visual trend was also confirmed with a statistical test. We calculated the correlation between individual exam results and school SES. The results showed a weak but significant positive correlation (0.22), proving that high-SES schools show more stable results in Russian language from year to year.
 
@@ -532,7 +549,9 @@ ggplot(graph4, aes(ach, id, ses_group)) +
   xlim(0, 100)
 ```
 
-![](Stability-of-School-Academic-Performance_files/figure-markdown_github/unnamed-chunk-15-1.png)
+    ## Warning: Removed 73 rows containing missing values (geom_point).
+
+![](Stability-of-School-Academic-Performance_files/figure-markdown_github/unnamed-chunk-14-1.png)
 
 ``` r
 variance_data_math <- ach_data %>%
@@ -571,6 +590,8 @@ Another intriguing aspect of our research question is examining the extent to wh
 library(lme4)
 ```
 
+    ## Warning: package 'lme4' was built under R version 4.0.2
+
     ## Loading required package: Matrix
 
     ## 
@@ -583,7 +604,11 @@ library(lme4)
 ``` r
 library(sjstats)
 library(sjPlot)
+```
 
+    ## Install package "strengejacke" from GitHub (`devtools::install_github("strengejacke/strengejacke")`) to load all sj-packages at once!
+
+``` r
 rus_mod <- lmer(use ~ 1 + (1 | id/year), data = ach_data, subset = subject == "rus")
 tab_model(rus_mod, show.icc = FALSE)
 ```
