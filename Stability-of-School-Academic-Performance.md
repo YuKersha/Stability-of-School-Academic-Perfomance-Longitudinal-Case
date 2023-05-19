@@ -604,7 +604,11 @@ library(lme4)
 ``` r
 library(sjstats)
 library(sjPlot)
+```
 
+    ## #refugeeswelcome
+
+``` r
 rus_mod <- lmer(use ~ 1 + (1 | id/year), data = ach_data, subset = subject == "rus")
 tab_model(rus_mod, show.icc = FALSE)
 ```
