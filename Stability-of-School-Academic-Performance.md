@@ -604,11 +604,7 @@ library(lme4)
 ``` r
 library(sjstats)
 library(sjPlot)
-```
 
-    ## Install package "strengejacke" from GitHub (`devtools::install_github("strengejacke/strengejacke")`) to load all sj-packages at once!
-
-``` r
 rus_mod <- lmer(use ~ 1 + (1 | id/year), data = ach_data, subset = subject == "rus")
 tab_model(rus_mod, show.icc = FALSE)
 ```
