@@ -302,18 +302,8 @@ graph1 <- ach_data %>%
   summarise(ach = mean(use, na.rm = TRUE)) %>%
   ungroup() %>%
   mutate(id = factor(id, levels = graph1_ord$id))
-```
 
-    ## `summarise()` has grouped output by 'id'. You can override using the `.groups`
-    ## argument.
-
-``` r
 library(ggthemes)
-```
-
-    ## Warning: package 'ggthemes' was built under R version 4.0.2
-
-``` r
 ggplot(graph1, aes(ach, id)) +
   geom_point(aes(color = year), size=2.2, alpha = 0.9)+
   scale_color_gradient(low = "darkblue", high ="cyan3" , na.value = NA)+
@@ -332,8 +322,6 @@ ggplot(graph1, aes(ach, id)) +
         legend.text = element_text(colour="#253856", size=10, family = "Arial")
   )+ xlim(0, 100)
 ```
-
-    ## Warning: Removed 7 rows containing missing values (geom_point).
 
 ![](Stability-of-School-Academic-Performance_files/figure-markdown_github/unnamed-chunk-8-1.png)
 
@@ -604,7 +592,11 @@ library(lme4)
 ``` r
 library(sjstats)
 library(sjPlot)
+```
 
+    ## #refugeeswelcome
+
+``` r
 rus_mod <- lmer(use ~ 1 + (1 | id/year), data = ach_data, subset = subject == "rus")
 tab_model(rus_mod, show.icc = FALSE)
 ```
