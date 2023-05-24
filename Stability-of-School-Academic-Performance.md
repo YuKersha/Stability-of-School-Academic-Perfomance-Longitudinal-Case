@@ -81,11 +81,6 @@ sapply(ses, function(x) sum(is.na(x)))
 
 ``` r
 library(missMDA)
-```
-
-    ## Warning: package 'missMDA' was built under R version 4.0.2
-
-``` r
 numb_comp <- estim_ncpPCA(ses[,c(2:12)], ncp.min=0, ncp.max=5)
 ses_imp <- imputePCA(ses[,c(2:12)],ncp=numb_comp$ncp)
 ses_imp <-as.data.frame(ses_imp) 
@@ -106,13 +101,6 @@ sapply(ses_imp[,c(1:11)], function(x) sum(is.na(x)))
 
 ``` r
 library(factoextra)
-```
-
-    ## Loading required package: ggplot2
-
-    ## Welcome! Want to learn more? See two factoextra-related books at https://goo.gl/ve3WBa
-
-``` r
 pca_ses <- prcomp(ses_imp[,c(1:11)], center=T, scale=T)
 summary(pca_ses)
 ```
@@ -246,20 +234,6 @@ We saved the resulting SES index, in the form of the first component values deri
 
 ``` r
 library(dplyr)
-```
-
-    ## 
-    ## Attaching package: 'dplyr'
-
-    ## The following objects are masked from 'package:stats':
-    ## 
-    ##     filter, lag
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     intersect, setdiff, setequal, union
-
-``` r
 scores <- scale(pca_ses$x[,1:2]) %*% varimax(rawLoadings_matrix)$rotmat
 school_dat <- data.frame(ses, SES = scores[, 1])
 school_dat$ses_group <- ntile(school_dat$SES, 3)
@@ -535,27 +509,9 @@ Another intriguing aspect of our research question is examining the extent to wh
 
 ``` r
 library(lme4)
-```
-
-    ## Warning: package 'lme4' was built under R version 4.0.2
-
-    ## Loading required package: Matrix
-
-    ## 
-    ## Attaching package: 'Matrix'
-
-    ## The following objects are masked from 'package:tidyr':
-    ## 
-    ##     expand, pack, unpack
-
-``` r
 library(sjstats)
 library(sjPlot)
-```
 
-    ## Learn more about sjPlot with 'browseVignettes("sjPlot")'.
-
-``` r
 rus_mod <- lmer(use ~ 1 + (1 | id/year), data = ach_data, subset = subject == "rus")
 tab_model(rus_mod, show.icc = FALSE)
 ```
