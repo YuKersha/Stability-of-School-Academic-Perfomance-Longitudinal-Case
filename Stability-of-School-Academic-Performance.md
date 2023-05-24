@@ -724,7 +724,8 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </td>
 </tr>
 </table>
-<!-- Add an empty line here -->
+<br> <!-- Add an empty line here -->
+
 ``` r
 performance::icc(math_mod, by_group = TRUE)
 ```
