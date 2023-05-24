@@ -724,12 +724,7 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </td>
 </tr>
 </table>
-``` r
-cat("## ICC by Group\n\n")
-```
-
-    ## ## ICC by Group
-
+<!-- Add an empty line here -->
 ``` r
 performance::icc(math_mod, by_group = TRUE)
 ```
