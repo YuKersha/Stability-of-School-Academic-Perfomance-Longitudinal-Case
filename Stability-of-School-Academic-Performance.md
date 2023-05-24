@@ -611,6 +611,8 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </td>
 </tr>
 </table>
+<br> <!-- Add an empty line here -->
+
 ``` r
 performance::icc(rus_mod, by_group = TRUE)
 ```
